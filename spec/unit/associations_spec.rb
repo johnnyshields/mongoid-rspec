@@ -24,7 +24,7 @@ describe "Associations" do
   end
 
   describe Comment do
-    it { should be_embedded_in(:article).as_inverse_of(:comments) }
+    it { should be_embedded_in(:article).as_inverse_of(:comments).with_polymorphic }
     it { should belong_to(:user).as_inverse_of(:comments) }
   end
 
