@@ -75,6 +75,12 @@ module Mongoid
           @expectation_message << " which specifies autobuild as #{@association[:autobuild].to_s}"
           self
         end
+      
+        def with_polymorphic
+          @association[:polymorphic] = true
+          @expectation_message << " which specifies polymorphic as #{@association[:polymorphic].to_s}"
+          self
+        end
 
         def stored_as(store_as)
           raise NotImplementedError, "`references_many #{@association[:name]} :stored_as => :array` has been removed in Mongoid 2.0.0.rc, use `references_and_referenced_in_many #{@association[:name]}` instead"
@@ -163,6 +169,15 @@ module Mongoid
               return false
             else
               @positive_result_message = "#{@positive_result_message} which set autobuild"
+            end
+          end
+
+          if @association[:polymorphic]
+            if metadata.polymorphic? != true
+              @negative_result_message = "#{@positive_result_message} which did not set polymorphic"
+              return false
+            else
+              @positive_result_message = "#{@positive_result_message} which set polymorphic"
             end
           end
 
